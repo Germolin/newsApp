@@ -5,72 +5,85 @@ import { Container, Header, Content, Form, Item, Input, Button, Spinner } from '
 
 export default class LoginForm extends Component {
   
-state = { 
-    email: "",
-    password: "",
-    error: "",
-    loading: false
- }
+    state = { 
+        email: "",
+        password: "",
+        error: "",
+        loading: false
+    }
 
-onButtonPress() {
-    const { email, password } = this.state;
+    onButtonPress() {
+        const { email, password } = this.state;
 
-    this.setState({ error:"", loading: true })
+        this.setState({ error:"", loading: true })
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .catch(() => {
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-                .catch(() => {
-                    this.setState({error: "Authentication failed"});
-                })
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(this.onLogginSuccess.bind(this))
+            .catch(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(this.onLogginSuccess.bind(this))
+                .catch(this.onLogginFail.bind(this));
 
-        });
-}
+            });
+    }
 
-renderButton() {
-    if(this.state.loading) {
-        return <Spinner color="blue"/>
+    onLogginSuccess() {
+       this.setState({
+           email: "",
+           password: "",
+           loading: false,
+           error: ""
+       });
+    }
+
+    onLogginFail() {
+        this.setState({error: "Auth failed", loading: false})
+    }
+
+    renderButton() {
+        if(this.state.loading) {
+            return <Spinner color="blue"/>
+        }
+        
+        return (
+            <Button onPress={this.onButtonPress.bind(this)} primary>
+                <Text>
+                    Login                        
+                </Text>
+            </Button>
+        )
     }
     
-    return (
-        <Button onPress={this.onButtonPress.bind(this)} primary>
+    render() {
+        return (
+        <Container>
+            <Content>
+            <Form>
+                <Item>
+                <Input
+                autoCorrect={false}
+                value={this.state.email} 
+                onChangeText={email => this.setState({email})}
+                placeholder="Email" 
+                />
+                </Item>
+                <Item>
+                <Input
+                    secureTextEntry 
+                    placeholder="Password"
+                    value={this.state.password}
+                    onChangeText={password => this.setState({password})}
+                />
+                </Item>
+                <Item last>
+                    {this.renderButton()}
+                </Item>
+            </Form>
             <Text>
-                Login                        
+                {this.state.error}                     
             </Text>
-        </Button>
-    )
-}
-  
-render() {
-    return (
-      <Container>
-        <Content>
-          <Form>
-            <Item>
-              <Input
-              autoCorrect={false}
-              value={this.state.email} 
-              onChangeText={email => this.setState({email})}
-              placeholder="Email" 
-              />
-            </Item>
-            <Item>
-              <Input
-                secureTextEntry 
-                placeholder="Password"
-                value={this.state.password}
-                onChangeText={password => this.setState({password})}
-              />
-            </Item>
-            <Item last>
-                {this.renderButton()}
-            </Item>
-          </Form>
-          <Text>
-            {this.state.error}                     
-          </Text>
-        </Content>
-      </Container>
-    );
-  }
+            </Content>
+        </Container>
+        );
+    }
 }

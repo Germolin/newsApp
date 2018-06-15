@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import CustomHeader from './src/components/CustomHeader'; 
 import NewsList from './src/components/newsList';
 import LoginForm from './src/components/loginForm'
 import firebase from "firebase";
+import { Button, Spinner } from 'native-base';
 
 type Props = {};
+
 export default class App extends Component<Props> {
+
+  state = { loggedIn:  null }
 
   componentWillMount() {
     firebase.initializeApp({
@@ -17,12 +21,36 @@ export default class App extends Component<Props> {
       storageBucket: "news-auth.appspot.com",
       messagingSenderId: "404773573196"
     });
+
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this.setState({ loggedIn: true })
+      } else {
+        this.setState({ loggedIn: false })
+      }
+    })
+  }
+
+  renderLogger() {
+    switch (this.state.loggedIn) {
+      case true:
+        return (
+        <Button onPress={() => firebase.auth().signOut()}>
+          <Text>Log Out</Text>
+        </Button>
+        )
+      case false:
+        return <LoginForm />;
+      default:
+        return <Spinner size='large'/>
+    };
+
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <LoginForm />
+        {this.renderLogger()}
       </View>
     );
   }
