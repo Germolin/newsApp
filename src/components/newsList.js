@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, FlatList, Text } from 'react-native';
 import NewDetail from './newDetail';
 import { Container, Content } from 'native-base';
-
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 class NewsList extends Component {
 
@@ -15,21 +16,24 @@ class NewsList extends Component {
         
     }
 
-    renderNews() {
-        return this.state.news.map(ar => <NewDetail key={ar.url} details={ar} />);
-    }
-
     render() {
       return (
          <Container>
             <Content>
-              <ScrollView contentContainerStyle={{flexGrow: 1,justifyContent: 'center'}}>
-                {this.renderNews()}
-              </ScrollView>
+              <FlatList
+                data={this.props.categories}
+                renderItem={({item, index}) => <Text key={index}>{item}</Text>} 
+               />
             </Content>
         </Container> 
       );
     }
 }
 
-export default NewsList;
+const mapStateToProps = state => {
+  return {
+    categories: state.categories
+  }
+};
+
+export default connect(mapStateToProps, actions)(NewsList);

@@ -5,12 +5,17 @@ import NewsList from './src/components/newsList';
 import LoginForm from './src/components/loginForm'
 import firebase from "firebase";
 import { Button, Spinner } from 'native-base';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './src/reducers';
+import ReduxThunk from 'redux-thunk';
 
 type Props = {};
 
 export default class App extends Component<Props> {
 
   state = { loggedIn:  null }
+  ReduxStore = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
   componentWillMount() {
     firebase.initializeApp({
@@ -49,9 +54,12 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        {this.renderLogger()}
-      </View>
+      <Provider store={this.ReduxStore}>
+        <View style={{flex: 1}}>
+          <LoginForm />
+        </View>
+      </Provider>
+
     );
   }
 }

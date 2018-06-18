@@ -2,9 +2,21 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import firebase from 'firebase';
 import { Container, Header, Content, Form, Item, Input, Button, Spinner } from 'native-base';
+import { connect } from "react-redux";
+import { emailChanged, passwordChanged, loginUser } from "../actions";
 
-export default class LoginForm extends Component {
+
+
+ class LoginForm extends Component {
   
+    onEmailChange(text) {
+        this.props.emailChanged(text);
+    }
+    
+    onPasswordChange(text) {
+        this.props.passwordChanged(text);
+    }
+
     state = { 
         email: "",
         password: "",
@@ -13,18 +25,9 @@ export default class LoginForm extends Component {
     }
 
     onButtonPress() {
-        const { email, password } = this.state;
+        const { email, password } = this.props;
 
-        this.setState({ error:"", loading: true })
-
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(this.onLogginSuccess.bind(this))
-            .catch(() => {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(this.onLogginSuccess.bind(this))
-                .catch(this.onLogginFail.bind(this));
-
-            });
+        this.props.loginUser({ email, password })
     }
 
     onLogginSuccess() {
@@ -62,8 +65,8 @@ export default class LoginForm extends Component {
                 <Item>
                 <Input
                 autoCorrect={false}
-                value={this.state.email} 
-                onChangeText={email => this.setState({email})}
+                value={this.props.email} 
+                onChangeText={this.onEmailChange.bind(this)}
                 placeholder="Email" 
                 />
                 </Item>
@@ -71,8 +74,8 @@ export default class LoginForm extends Component {
                 <Input
                     secureTextEntry 
                     placeholder="Password"
-                    value={this.state.password}
-                    onChangeText={password => this.setState({password})}
+                    value={this.props.password}
+                    onChangeText={this.onPasswordChange.bind(this)}
                 />
                 </Item>
                 <Item last>
@@ -87,3 +90,12 @@ export default class LoginForm extends Component {
         );
     }
 }
+
+const mapStateToprops = (state) => {
+    return {
+        email: state.auth.email,
+        password: state.auth.password
+    }
+}
+
+export default connect(mapStateToprops, { emailChanged, passwordChanged, loginUser })(LoginForm)
