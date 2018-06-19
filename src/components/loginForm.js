@@ -17,19 +17,15 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
         this.props.passwordChanged(text);
     }
 
-    state = { 
-        email: "",
-        password: "",
-        error: "",
-        loading: false
-    }
-
     onButtonPress() {
         const { email, password } = this.props;
 
         this.props.loginUser({ email, password })
     }
 
+    state = {
+        loading: false
+    }
     onLogginSuccess() {
        this.setState({
            email: "",
@@ -44,7 +40,7 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
     }
 
     renderButton() {
-        if(this.state.loading) {
+        if(this.props.loading) {
             return <Spinner color="blue"/>
         }
         
@@ -57,44 +53,62 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
         )
     }
     
+    renderError() {
+        if(this.props.error){
+            return (
+                <Text>
+                    {this.props.error}
+                </Text>
+            )
+        }
+    }
+
     render() {
         return (
         <Container>
             <Content>
-            <Form>
-                <Item>
-                <Input
-                autoCorrect={false}
-                value={this.props.email} 
-                onChangeText={this.onEmailChange.bind(this)}
-                placeholder="Email" 
-                />
-                </Item>
-                <Item>
-                <Input
-                    secureTextEntry 
-                    placeholder="Password"
-                    value={this.props.password}
-                    onChangeText={this.onPasswordChange.bind(this)}
-                />
-                </Item>
-                <Item last>
-                    {this.renderButton()}
-                </Item>
-            </Form>
-            <Text>
-                {this.state.error}                     
-            </Text>
+                <Form>
+                    <Item>
+                    <Input
+                    autoCorrect={false}
+                    value={this.props.email} 
+                    onChangeText={this.onEmailChange.bind(this)}
+                    placeholder="Email" 
+                    />
+                    </Item>
+                    <Item>
+                    <Input
+                        secureTextEntry 
+                        placeholder="Password"
+                        value={this.props.password}
+                        onChangeText={this.onPasswordChange.bind(this)}
+                    />
+                    </Item>
+                    <Item last>
+                        {this.renderButton()}
+                    </Item>
+                </Form>
+                {this.renderError()}                     
             </Content>
         </Container>
         );
     }
 }
 
+const styles = {
+    form: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    }
+}
+
 const mapStateToprops = (state) => {
     return {
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        error: state.auth.error,
+        loading: state.auth.loading
     }
 }
 

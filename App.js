@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
 import ReduxThunk from 'redux-thunk';
+import Router from "./src/router"
 
 type Props = {};
 
@@ -56,7 +57,7 @@ export default class App extends Component<Props> {
     return (
       <Provider store={this.ReduxStore}>
         <View style={{flex: 1}}>
-          <LoginForm />
+          <Router />
         </View>
       </Provider>
 

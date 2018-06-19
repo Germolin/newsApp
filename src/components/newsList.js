@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { ScrollView, FlatList, Text } from 'react-native';
 import NewDetail from './newDetail';
-import { Container, Content } from 'native-base';
+import { Container, Content, Fab, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import { Actions } from 'react-native-router-flux';
 
 class NewsList extends Component {
 
-    state = { news: [] };
+    state = { news: []};
 
     componentWillMount() {
         fetch('https://newsapi.org/v2/top-headlines?country=co&apiKey=f168520dd2014a82ac4cd695a9016e1f')
@@ -21,9 +22,19 @@ class NewsList extends Component {
          <Container>
             <Content>
               <FlatList
-                data={this.props.categories}
-                renderItem={({item, index}) => <Text key={index}>{item}</Text>} 
+                data={this.state.news}
+                renderItem={({item, index}) => <NewDetail key={index} details={item} />} 
                />
+               <Fab
+                active={true}
+                direction="up"
+                containerStyle={{ }}
+                style={{ backgroundColor: '#5067FF' }}
+                position="topRight"
+                onPress={() => Actions.config()}
+              >
+                <Icon name="cog" />
+              </Fab>
             </Content>
         </Container> 
       );
