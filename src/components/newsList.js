@@ -3,18 +3,15 @@ import { ScrollView, FlatList, Text } from 'react-native';
 import NewDetail from './newDetail';
 import { Container, Content, Fab, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { loadNews } from '../actions';
 import { Actions } from 'react-native-router-flux';
 
 class NewsList extends Component {
 
     state = { news: []};
 
-    componentWillMount() {
-        fetch('https://newsapi.org/v2/top-headlines?country=co&apiKey=f168520dd2014a82ac4cd695a9016e1f')
-             .then(response => response.json())
-             .then(data => this.setState({ news: data.articles }));
-        
+    componentDidMount() {
+        this.props.dispatch(loadNews())
     }
 
     render() {
@@ -22,17 +19,17 @@ class NewsList extends Component {
          <Container>
             <Content>
               <FlatList
-                data={this.state.news}
+                data={this.props.news}
                 renderItem={({item, index}) => <NewDetail key={index} details={item} />} 
                />
                <Fab
                 active={true}
                 direction="up"
                 containerStyle={{ }}
-                style={{ backgroundColor: '#5067FF' }}
+                style={{ backgroundColor: '#9ea5af' }}
                 position="topRight"
                 onPress={() => Actions.config()}
-              >
+               >
                 <Icon name="cog" />
               </Fab>
             </Content>
@@ -43,8 +40,8 @@ class NewsList extends Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    news: state.news.news
   }
 };
 
-export default connect(mapStateToProps, actions)(NewsList);
+export default connect(mapStateToProps)(NewsList);

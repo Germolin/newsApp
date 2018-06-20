@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, Keyboard } from 'react-native';
 import firebase from 'firebase';
 import { Container, Header, Content, Form, Item, Input, Button, Spinner } from 'native-base';
 import { connect } from "react-redux";
@@ -30,8 +30,7 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
        this.setState({
            email: "",
            password: "",
-           loading: false,
-           error: ""
+           loading: false
        });
     }
 
@@ -82,6 +81,7 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
                         placeholder="Password"
                         value={this.props.password}
                         onChangeText={this.onPasswordChange.bind(this)}
+                        onSubmitEditing={Keyboard.dismiss}
                     />
                     </Item>
                     <Item last>

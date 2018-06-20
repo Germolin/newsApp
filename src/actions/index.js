@@ -41,3 +41,16 @@ const loginSuccess = (dispatch, user) => {
 
     Actions.main();
 }
+
+export function loadNews() {
+    return (dispatch) => {
+        return fetch('https://newsapi.org/v2/top-headlines?country=co&category=business&apiKey=f168520dd2014a82ac4cd695a9016e1f')
+             .then(response => response.json())
+             .then(data => {
+                  dispatch({type: 'news_loaded', payload: data.articles})
+                  return data.articles; 
+                }
+            );
+
+            }
+        }
