@@ -3,16 +3,12 @@ import { ScrollView, FlatList, Text } from 'react-native';
 import NewDetail from './newDetail';
 import { Container, Content, Fab, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
-import { loadNews } from '../actions';
+import { loadNews, loadCategories } from '../actions';
 import { Actions } from 'react-native-router-flux';
 
 class NewsList extends Component {
 
-    state = { news: []};
-
-    componentDidMount() {
-        this.props.dispatch(loadNews())
-    }
+    state = { news: [], categories: ""};
 
     render() {
       return (
@@ -38,9 +34,13 @@ class NewsList extends Component {
     }
 }
 
+
+
+
 const mapStateToProps = state => {
   return {
-    news: state.news.news
+    news: state.news.news,
+    categories: state.categories.categories
   }
 };
 

@@ -7,8 +7,10 @@ import {
     AppRegistry
   } from 'react-native';
 import LabelSelect from 'react-native-label-select';
+import { connect } from "react-redux";
+import { saveCategories } from "../actions"
 
-export default class ConfigComponent extends Component {
+class ConfigComponent extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -18,11 +20,11 @@ export default class ConfigComponent extends Component {
           value: 1
         }, {
           name: 'entertainment',
-          isSelected: true,
+          isSelected: false,
           value: 2
         }, {
           name: 'general',
-          isSelected: true,
+          isSelected: false,
           value: 3
         }, {
           name: 'health',
@@ -30,7 +32,7 @@ export default class ConfigComponent extends Component {
           value: 4
         }, {
           name: 'science',
-          isSelected: true,
+          isSelected: false,
           value: 5
         }, {
           name: 'sports',
@@ -47,12 +49,14 @@ export default class ConfigComponent extends Component {
     }
     selectConfirm(list) {
       let {arr} = this.state;
+      console.log(list);
       for (let item of list) {
         let index = arr.findIndex(ele => ele === item);
         if (~index) arr[index].isSelected = true;
         else continue;
       }
       this.setState({arr: arr});
+      this.props.saveCategories(list)
     }
     deleteItem(item) {
       let {arr} = this.state;
@@ -112,4 +116,11 @@ export default class ConfigComponent extends Component {
       color: 'rgb(13, 131, 144)'
     }
   });
+
+  const mapStateToProps = (state) => {
+    return {
+        categories: state.categories
+    }
+  }
   
+  export default connect(mapStateToProps, { saveCategories })(ConfigComponent)
