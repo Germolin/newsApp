@@ -44,8 +44,9 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
         }
         
         return (
-            <Button onPress={this.onButtonPress.bind(this)} primary>
-                <Text>
+            <Button
+                onPress={this.onButtonPress.bind(this)}>
+                <Text style={{textAlign: "center"}}>
                     Login                        
                 </Text>
             </Button>
@@ -65,26 +66,29 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
     render() {
         return (
         <Container>
-            <Content>
-                <Form>
-                    <Item>
-                    <Input
-                    autoCorrect={false}
-                    value={this.props.email} 
-                    onChangeText={this.onEmailChange.bind(this)}
-                    placeholder="Email" 
-                    />
+            <Content contentContainerStyle={styles.container}>
+                <Form style={styles.form} >
+                    <Item style={styles.formInputContainer}>
+                        <Input
+                        style={styles.formInput}
+                        autoCorrect={false}
+                        value={this.props.email} 
+                        onChangeText={this.onEmailChange.bind(this)}
+                        placeholder="Email"
+                        
+                        />
                     </Item>
-                    <Item>
-                    <Input
-                        secureTextEntry 
-                        placeholder="Password"
-                        value={this.props.password}
-                        onChangeText={this.onPasswordChange.bind(this)}
-                        onSubmitEditing={Keyboard.dismiss}
-                    />
+                    <Item style={styles.formInputContainer}>
+                        <Input
+                            style={styles.formInput}
+                            secureTextEntry 
+                            placeholder="Password"
+                            value={this.props.password}
+                            onChangeText={this.onPasswordChange.bind(this)}
+                            onSubmitEditing={Keyboard.dismiss}
+                        />
                     </Item>
-                    <Item last>
+                    <Item style={styles.formInputContainer}>
                         {this.renderButton()}
                     </Item>
                 </Form>
@@ -96,11 +100,40 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
 }
 
 const styles = {
-    form: {
+    container: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "#2b313a"
+    },
+    form: {
+        width: "85%",
+        backgroundColor: "#39404c",
+        justifyContent: "center",
+        borderRadius: 10,
+        borderColor: 'transparent'
+        
+    },
+    formInputContainer: {
+        width: "90%",
+        borderWidth: 0,
+        borderColor: 'transparent'
+    },
+    formInput: {
+        textAlign: "center",
+        color: "#446699"
+    },
+    formButtonContainer: {
+        justifyContent: "center"
+    },
+    formButton: {
+        width: "50%",
+        borderColor: 'transparent',
+        borderRadius: 10,
+        backgroundColor: "#525787",
+        textAlign: "center",
     }
+
 }
 
 const mapStateToprops = (state) => {
