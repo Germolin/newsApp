@@ -1,52 +1,45 @@
 import React from 'react';
-import { View, Image, StyleSheet  } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
+import { View, Image, StyleSheet, WebView, ScrollView } from 'react-native';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, H3 } from 'native-base';
 
-const NewDetail = ({ details }) => {
-    return (        
-           <Card style={{flex: 0}}>
-             <CardItem>
-               <Left>
-                 <Thumbnail source={{uri: details.urlToImage}} />
-                 <Body>
-                   <Text>{details.title}</Text>
-                   <Text note>{details.publishedAt}</Text>
-                 </Body>
-               </Left>
-             </CardItem>
+class NewDetail extends React.PureComponent {
+    render() {
+      return (        
+           <Card style={styles.card}>
              <CardItem>
                <Body>
-                 <Image source={{uri: details.urlToImage}} style={{height: 200, width: 200, flex: 1}}/>
-                 <Text>
-                   {details.description}
-                 </Text>
+                 <Image source={{uri: this.props.details.urlToImage}} style={styles.image}/>
                </Body>
              </CardItem>
              <CardItem>
                <Left>
-                 <Button transparent textStyle={{color: '#87838B'}}>
-                   <Icon name="globe" />
-                   <Text>{details.source.name}}</Text>
-                 </Button>
+                 <H3>{this.props.details.title}</H3>
                </Left>
              </CardItem>
            </Card>   
-      );
+      )
+    }
 };
 
 const styles = StyleSheet .create({
     container: {
         marginVertical: 15
-
+    },
+    card: {
+      width: "100%",
+      padding: 0
     },
     image: {
         height: 200, 
+        width: '100%',
         flex: 1
     },
     headline: {
         textAlign: 'center',
         fontSize: 23
+    },
+    imageContainer: {
+      padding: 0
     }
 })
 export default NewDetail;
-

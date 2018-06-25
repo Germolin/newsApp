@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "404773573196",
+    "firebase_url": "https://news-auth.firebaseio.com",
+    "project_id": "news-auth",
+    "storage_bucket": "news-auth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404773573196:android:26b008f1951eae8b",
+        "android_client_info": {
+          "package_name": "com.german.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404773573196-ibaehi2lopqe12101l25ujn5vtt0mp5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6K5VoszBrAvcm5VuXRQ5XeNyf5TZ_xyY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,6 +11,10 @@ import reducers from './src/reducers';
 import ReduxThunk from 'redux-thunk';
 import Router from "./src/router"
 
+console.ignoredYellowBox = [
+  'Setting a timer'
+];
+
 type Props = {};
 
 export default class App extends Component<Props> {

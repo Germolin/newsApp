@@ -45,8 +45,9 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
         
         return (
             <Button
-                onPress={this.onButtonPress.bind(this)}>
-                <Text style={{textAlign: "center"}}>
+                onPress={this.onButtonPress.bind(this)}
+                style={styles.formButton}>
+                <Text style={styles.buttonText}>
                     Login                        
                 </Text>
             </Button>
@@ -70,6 +71,7 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
                 <Form style={styles.form} >
                     <Item style={styles.formInputContainer}>
                         <Input
+                        autoCapitalize='none'
                         style={styles.formInput}
                         autoCorrect={false}
                         value={this.props.email} 
@@ -88,7 +90,7 @@ import { emailChanged, passwordChanged, loginUser } from "../actions";
                             onSubmitEditing={Keyboard.dismiss}
                         />
                     </Item>
-                    <Item style={styles.formInputContainer}>
+                    <Item style={styles.formButtonContainer}>
                         {this.renderButton()}
                     </Item>
                 </Form>
@@ -111,8 +113,8 @@ const styles = {
         backgroundColor: "#39404c",
         justifyContent: "center",
         borderRadius: 10,
-        borderColor: 'transparent'
-        
+        borderColor: 'transparent',
+        paddingBottom: 10
     },
     formInputContainer: {
         width: "90%",
@@ -124,14 +126,21 @@ const styles = {
         color: "#446699"
     },
     formButtonContainer: {
-        justifyContent: "center"
+        justifyContent: "center",
+        borderWidth: 0,
+        borderColor: 'transparent'
     },
     formButton: {
         width: "50%",
         borderColor: 'transparent',
         borderRadius: 10,
-        backgroundColor: "#525787",
+        backgroundColor: "#ACC1E5",
+        alignItems: "center"
+    },
+    buttonText: {
         textAlign: "center",
+        fontSize: 16,
+        width: "100%"
     }
 
 }

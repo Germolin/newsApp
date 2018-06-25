@@ -10,18 +10,22 @@ class NewsList extends Component {
 
     state = { news: [], categories: ""};
 
+    
+
     render() {
       return (
          <Container>
-            <Content>
+            <Content contentContainerStyle={styles.list}>
               <FlatList
                 data={this.props.news}
-                renderItem={({item, index}) => <NewDetail key={index} details={item} />} 
+                style={{width: '98%'}}
+                initialNumToRender={2}
+                renderItem={renderListItem} 
                />
                <Fab
                 active={true}
                 direction="up"
-                containerStyle={{ }}
+                containerStyle={{  }}
                 style={{ backgroundColor: '#9ea5af' }}
                 position="topRight"
                 onPress={() => Actions.config()}
@@ -34,8 +38,13 @@ class NewsList extends Component {
     }
 }
 
+const renderListItem = ({item, index}) => <NewDetail key={index} details={item} />;
 
-
+const styles = {
+  list: {
+    alignItems: 'center'
+  }
+}
 
 const mapStateToProps = state => {
   return {
